@@ -6,7 +6,7 @@
 
     <style>
         body{
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             margin: 40px;
         }
 
@@ -21,21 +21,47 @@
             padding: 15px;
             width: 350px;
         }
+
+        /* Estilo para a lista de erros */
+        .erros {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            width: 350px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .erros ul {
+            margin: 0;
+            padding-left: 20px;
+        }
     </style>
 </head>
 <body>
 
     <h1>Cálculo da Média</h1>
 
+    <% if(typeof errors !== 'undefined' && errors.length > 0) { %>
+        <div class="erros">
+            <strong>Por favor, corrija os seguintes erros:</strong>
+            <ul>
+                <% errors.forEach(function(error) { %>
+                    <li><%= error.msg %></li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+
     <form method="POST">
 
         <label>Primeira nota:</label><br>
-        <input type="number" step="0.1" name="nota1" required>
+        <input type="number" step="0.1" name="nota1" min="0" max="10" value="<%= typeof nota1 !== 'undefined' ? nota1 : '' %>" required>
 
         <br><br>
 
         <label>Segunda nota:</label><br>
-        <input type="number" step="0.1" name="nota2" required>
+        <input type="number" step="0.1" name="nota2" min="0" max="10" value="<%= typeof nota2 !== 'undefined' ? nota2 : '' %>" required>
 
         <br><br>
 
@@ -45,7 +71,7 @@
 
     </form>
 
-    <% if(typeof media !== "undefined"){ %>
+    <% if(typeof media !== "undefined" && media !== null && errors.length === 0){ %>
 
         <div class="resultado">
 
